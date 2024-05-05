@@ -40,3 +40,23 @@ function w = fourier_matvec(f, lambda, v)
     v_2 = lambda_lc .* v_1';
     w = fft(v_2);
 end
+
+function [y_hat] = my_ivsfft(y)
+    y_hat = fft(y);
+    y_hat = conj(y_hat) / length(y);
+end
+
+function lambda = get_fourier_diag(b)
+    lambda_0 = fft(b);
+    lambda_0 = conj(lambda_0);
+    lambda = lambda_0;
+end
+
+function lambda_lc = lin_comb_lambda(lambda, f)
+    N = length(lambda);
+    result = zeros(N, 1);
+    for k = 1:N
+        result(k) = f(lambda(k));
+    end
+    lambda_lc = result;
+end
